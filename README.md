@@ -1,6 +1,6 @@
-# Nitro Examples
+# `go-ms` examples
 
-This is a repository for Nitro examples. Feel free to contribute.
+This is a repository for go-ms examples. Feel free to contribute.
 
 ## Contents
 
