@@ -3,7 +3,7 @@ package handler
 import (
 	"log"
 
-	example "github.com/yadisnel/go-ms-examples/server/proto/example"
+	example "github.com/yadisnel/go-ms/v2examples/server/proto/example"
 	"github.com/yadisnel/go-ms/v2/metadata"
 	"github.com/yadisnel/go-ms/v2/server"
 
@@ -15,7 +15,7 @@ type Example struct{}
 func (e *Example) Call(ctx context.Context, req *example.Request, rsp *example.Response) error {
 	md, _ := metadata.FromContext(ctx)
 	log.Printf("Received Example.Call request with metadata: %v", md)
-	rsp.Msg = ": Hello " + req.Name
+	rsp.Msg = server.DefaultOptions().Id + ": Hello " + req.Name
 	return nil
 }
 

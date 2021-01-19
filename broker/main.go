@@ -6,12 +6,11 @@ import (
 	"time"
 
 	"github.com/yadisnel/go-ms/v2/broker"
-	"github.com/yadisnel/go-ms/v2/broker/memory"
+	"github.com/yadisnel/go-ms/v2/config/cmd"
 )
 
 var (
 	topic = "go.micro.topic.foo"
-	b = memory.NewBroker()
 )
 
 func pub() {
@@ -24,7 +23,7 @@ func pub() {
 			},
 			Body: []byte(fmt.Sprintf("%d: %s", i, time.Now().String())),
 		}
-		if err := b.Publish(topic, msg); err != nil {
+		if err := broker.Publish(topic, msg); err != nil {
 			log.Printf("[pub] failed: %v", err)
 		} else {
 			fmt.Println("[pub] pubbed message:", string(msg.Body))
@@ -34,8 +33,8 @@ func pub() {
 }
 
 func sub() {
-	_, err := b.Subscribe(topic, func(m *broker.Message) error {
-		fmt.Println("[sub] received message:", string(m.Body), "header", m.Header)
+	_, err := broker.Subscribe(topic, func(p broker.Event) error {
+		fmt.Println("[sub] received message:", string(p.Message().Body), "header", p.Message().Header)
 		return nil
 	})
 	if err != nil {
@@ -44,10 +43,12 @@ func sub() {
 }
 
 func main() {
-	if err := b.Init(); err != nil {
+	cmd.Init()
+
+	if err := broker.Init(); err != nil {
 		log.Fatalf("Broker Init error: %v", err)
 	}
-	if err := b.Connect(); err != nil {
+	if err := broker.Connect(); err != nil {
 		log.Fatalf("Broker Connect error: %v", err)
 	}
 

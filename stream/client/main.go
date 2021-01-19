@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"context"
-	proto "github.com/yadisnel/go-ms-examples/stream/server/proto"
-	"github.com/yadisnel/go-ms/v2/service/mucp"
+	proto "github.com/yadisnel/go-ms/v2examples/stream/server/proto"
+	"github.com/yadisnel/go-ms/v2"
 )
 
 func bidirectional(cl proto.StreamerService) {
@@ -72,7 +72,7 @@ func serverStream(cl proto.StreamerService) {
 }
 
 func main() {
-	service := mucp.NewService()
+	service := micro.NewService()
 	service.Init()
 
 	// create client

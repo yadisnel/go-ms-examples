@@ -4,12 +4,14 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/yadisnel/go-ms/v2"
 	"github.com/yadisnel/go-ms/v2/client"
-	"github.com/yadisnel/go-ms/v2/client/mucp"
 )
 
 func main() {
-	c := mucp.NewClient()
+	service := micro.NewService()
+	service.Init()
+	c := service.Client()
 
 	request := c.NewRequest("greeter", "Greeter.Hello", "john", client.WithContentType("application/json"))
 	var response string

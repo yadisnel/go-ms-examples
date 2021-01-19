@@ -1,29 +1,30 @@
 package main
 
 import (
-	"github.com/yadisnel/go-ms-examples/helloworld/handler"
-	"github.com/yadisnel/go-ms/v2/logger"
-	"github.com/yadisnel/go-ms/v2/service"
-	"github.com/yadisnel/go-ms/v2/service/mucp"
+	"context"
+	"log"
 
-	pb "github.com/yadisnel/go-ms-examples/helloworld/proto"
+	pb "github.com/yadisnel/go-ms/v2examples/helloworld/proto"
+	"github.com/yadisnel/go-ms/v2"
 )
 
+type Greeter struct{}
+
+func (g *Greeter) Hello(ctx context.Context, req *pb.Request, rsp *pb.Response) error {
+	rsp.Greeting = "Hello " + req.Name
+	return nil
+}
+
 func main() {
-	// New Service
-	helloworld := mucp.NewService(
-		service.Name("helloworld"),
-		service.Version("latest"),
+	service := micro.NewService(
+		micro.Name("helloworld"),
 	)
 
-	// Initialise service
-	helloworld.Init()
+	service.Init()
 
-	// Register Handler
-	pb.RegisterHelloworldHandler(helloworld.Server(), new(handler.Helloworld))
+	pb.RegisterGreeterHandler(service.Server(), new(Greeter))
 
-	// Run service
-	if err := helloworld.Run(); err != nil {
-		logger.Fatal(err)
+	if err := service.Run(); err != nil {
+		log.Fatal(err)
 	}
 }

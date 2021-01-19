@@ -1,16 +1,20 @@
 package main
 
 import (
+	"fmt"
+
+	"github.com/yadisnel/go-ms/v2"
 	"github.com/yadisnel/go-ms/v2/server"
-	"github.com/yadisnel/go-ms/v2/server/mucp"
 )
 
 func main() {
-	srv := mucp.NewServer(
+	service := micro.NewService()
+
+	service.Server().Init(
 		server.Wait(nil),
 	)
 
-	srv.Start()
-
-	select {}
+	if err := service.Run(); err != nil {
+		fmt.Println(err)
+	}
 }

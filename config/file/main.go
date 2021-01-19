@@ -4,16 +4,14 @@ import (
 	"fmt"
 
 	"github.com/yadisnel/go-ms/v2/config"
-	"github.com/yadisnel/go-ms/v2/config/memory"
 	"github.com/yadisnel/go-ms/v2/config/source/file"
 )
 
 func main() {
 	// load the config from a file source
-	c, err := memory.NewConfig(config.WithSource(
-		file.NewSource(file.WithPath("./config.json")),
-	))
-	if err != nil {
+	if err := config.Load(file.NewSource(
+		file.WithPath("./config.json"),
+	)); err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -27,12 +25,7 @@ func main() {
 	var host Host
 
 	// read a database host
-	v, err := c.Load("hosts", "database")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	if err := v.Scan(&host); err != nil {
+	if err := config.Get("hosts", "database").Scan(&host); err != nil {
 		fmt.Println(err)
 		return
 	}

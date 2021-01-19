@@ -1,13 +1,12 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"sync"
 
+	"context"
+	"github.com/yadisnel/go-ms/v2"
 	"github.com/yadisnel/go-ms/v2/server"
-	"github.com/yadisnel/go-ms/v2/service"
-	"github.com/yadisnel/go-ms/v2/service/mucp"
 )
 
 // waitgroup is a handler wrapper which adds a handler to a sync.WaitGroup
@@ -24,11 +23,11 @@ func waitgroup(wg *sync.WaitGroup) server.HandlerWrapper {
 func main() {
 	var wg sync.WaitGroup
 
-	service := mucp.NewService(
+	service := micro.NewService(
 		// wrap handlers with waitgroup wrapper
-		service.WrapHandler(waitgroup(&wg)),
+		micro.WrapHandler(waitgroup(&wg)),
 		// waits for the waitgroup once stopped
-		service.AfterStop(func() error {
+		micro.AfterStop(func() error {
 			// wait for handlers to finish
 			wg.Wait()
 			return nil

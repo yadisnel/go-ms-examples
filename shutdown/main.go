@@ -1,12 +1,11 @@
 package main
 
 import (
-	"context"
 	"log"
 	"time"
 
-	"github.com/yadisnel/go-ms/v2/service"
-	"github.com/yadisnel/go-ms/v2/service/mucp"
+	"context"
+	"github.com/yadisnel/go-ms/v2"
 )
 
 func main() {
@@ -21,9 +20,9 @@ func main() {
 	}()
 
 	// create service
-	service := mucp.NewService(
+	service := micro.NewService(
 		// with our cancellation context
-		service.Context(ctx),
+		micro.Context(ctx),
 	)
 
 	// init service

@@ -6,9 +6,8 @@ import (
 	"io"
 	"log"
 
-	proto "github.com/yadisnel/go-ms-examples/stream/server/proto"
-	"github.com/yadisnel/go-ms/v2/service"
-	"github.com/yadisnel/go-ms/v2/service/mucp"
+	proto "github.com/yadisnel/go-ms/v2examples/stream/server/proto"
+	"github.com/yadisnel/go-ms/v2"
 )
 
 type Streamer struct{}
@@ -45,8 +44,8 @@ func (e *Streamer) Stream(ctx context.Context, stream proto.Streamer_StreamStrea
 
 func main() {
 	// new service
-	service := mucp.NewService(
-		service.Name("go.micro.srv.stream"),
+	service := micro.NewService(
+		micro.Name("go.micro.srv.stream"),
 	)
 
 	// Init command line
